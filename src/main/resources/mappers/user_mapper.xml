@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- Mapper 인터페이스에 있는 메서드 여기서 구현하겠다고 연결 -->
+<mapper namespace="com.koreait.dbms_study.mapper.UserMapper">
+    <insert id="insert">
+        INSERT INTO
+            user_tb
+        VALUES
+            (0, #{username}, #{email}, NOW(), NOW());
+    </insert>
+
+    <select id="getUserList">
+        SELECT
+            *
+        FROM
+            user_tb;
+    </select>
+
+    <select id="getUserByUserId">
+        SELECT
+            *
+        FROM
+            user_tb
+        WHERE
+            user_id = #{userId};
+    </select>
+</mapper>
