@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class AddUserRespDto {
-    private String status;
+public class ApiRespDto<T> {
     private String message;
+    private T data;
 }

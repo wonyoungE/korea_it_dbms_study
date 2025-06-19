@@ -14,7 +14,7 @@ public class UserRepository {
     private UserMapper userMapper;
 
     public int addUser(User user) {
-        return userMapper.insert(user);
+        return userMapper.addUser(user);
     }
 
     public List<User> getUserList() {
@@ -23,5 +23,13 @@ public class UserRepository {
 
     public Optional<User> getUserByUserId(Integer userId) {
         return userMapper.getUserByUserId(userId);
+    }
+
+    public int editUser(User user) {
+        return userMapper.editUser(user);
+    }
+
+    public int deleteUser(Integer userId) {
+        return userMapper.deleteUser(userId);
     }
 }

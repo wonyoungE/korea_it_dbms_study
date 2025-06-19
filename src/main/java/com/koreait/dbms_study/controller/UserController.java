@@ -1,6 +1,7 @@
 package com.koreait.dbms_study.controller;
 
 import com.koreait.dbms_study.dto.AddUserReqDto;
+import com.koreait.dbms_study.dto.EditUserReqDto;
 import com.koreait.dbms_study.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +31,24 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getUserList());
     }
 
-    @GetMapping("/get")
-    public ResponseEntity<?> getUserByUserId(@RequestParam Integer userId) {
+    @GetMapping("/get/{userId}")
+    public ResponseEntity<?> getUserByUserId(@PathVariable Integer userId) {
         return ResponseEntity.ok(userService.getUserByUserId(userId));
+    }
+
+    // 요청 메서드 중 DELETE, PUT 있는데 POST로
+    // 왜? 1. 보안상(csrf) 2. 호환성
+    // 일부 브라우저 또는 서버가 PUT, DELETE를 완벽하게 지원하지 않음
+    // HTML <form>가 GET, POST만 지원
+    @PostMapping("/edit")
+    public ResponseEntity<?> editUser(@RequestBody EditUserReqDto editUserReqDto) {
+        return ResponseEntity.ok(userService.editUser(editUserReqDto));
+    }
+
+    // post는 body - param 다 받을 수 있음
+    // get은 param만 가능
+    @PostMapping("/delete")
+    public ResponseEntity<?> deleteUser(@RequestParam Integer userId) {
+        return ResponseEntity.ok(userService.deleteUser(userId));
     }
 }
