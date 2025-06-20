@@ -2,13 +2,12 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- Mapper 인터페이스에 있는 메서드 여기서 구현하겠다고 연결 -->
 <mapper namespace="com.koreait.dbms_study.mapper.PostMapper">
     <insert id="addPost">
         INSERT INTO
             post_tb
         VALUES
-            (0, #{title}, #{content}, #{userId}, NOW(), NOW());
+            (0, #{title}, #{content}, #{userId}, NOW(), NULL);
     </insert>
     <select id="getPostList">
         SELECT
@@ -24,13 +23,46 @@
         WHERE
             post_id = #{postId};
     </select>
+
+    <select id="getPostAndUserByPostId" resultMap="getPostRespMap">
+        SELECT
+            p.post_id,
+            p.title,
+            p.content,
+            p.create_dt as p_create_dt,
+            p.update_dt as p_update_dt,
+            u.user_id,
+            u.username,
+            u.email,
+            u.create_dt as u_create_dt,
+            u.update_dt as u_update_dt
+        FROM
+            post_tb as p
+        INNER JOIN user_tb as u ON (p.user_id = u.user_id)
+        WHERE
+            p.post_id = #{postId};
+    </select>
+
+    <resultMap id="getPostRespMap" type="com.koreait.dbms_study.dto.GetPostRespDto">
+        <id property="postId" column="post_id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="createDt" column="p_create_dt"/>
+        <result property="updateDt" column="p_update_dt"/>
+       <association property="user" javaType="com.koreait.dbms_study.entity.User">
+            <id property="userId" column="user_id"/>
+            <result property="username" column="username"/>
+            <result property="email" column="email"/>
+            <result property="createDt" column="u_create_dt"/>
+            <result property="updateDt" column="u_update_dt"/>
+        </association>
+    </resultMap>
     <update id="editPost">
         UPDATE
             post_tb
         SET
             title = #{title},
             content = #{content},
-            user_id = #{userId},
             update_dt = NOW()
         WHERE
             post_id = #{postId};

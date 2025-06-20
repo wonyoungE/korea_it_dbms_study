@@ -34,8 +34,13 @@ public class PostController {
         return ResponseEntity.ok(postService.editPost(editPostReqDto));
     }
 
-    @PostMapping("/delete/{postId}")
-    public ResponseEntity<?> deletePost(@PathVariable Integer postId) {
+    @PostMapping("/delete")
+    public ResponseEntity<?> deletePost(@RequestParam Integer postId) {
         return ResponseEntity.ok(postService.deletePost(postId));
+    }
+
+    @GetMapping("/get")
+    public ResponseEntity<?> getPostAndUserByPostId(@RequestParam Integer postId) {
+        return ResponseEntity.ok(postService.getPostAndUserByPostId(postId));
     }
 }

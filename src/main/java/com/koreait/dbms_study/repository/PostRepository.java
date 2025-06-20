@@ -1,5 +1,6 @@
 package com.koreait.dbms_study.repository;
 
+import com.koreait.dbms_study.dto.GetPostRespDto;
 import com.koreait.dbms_study.entity.Post;
 import com.koreait.dbms_study.mapper.PostMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,9 @@ public class PostRepository {
 
     public int deletePost(Integer postId) {
         return postMapper.deletePost(postId);
+    }
+
+    public Optional<GetPostRespDto> getPostAndUserByPostId(Integer postId) {
+        return postMapper.getPostAndUserByPostId(postId);
     }
 }
